@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#f6eee7" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="歐迪訂單" />
+<link rel="apple-touch-icon" href="./icon-180.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png" />
+<title>歐迪雞蛋殼布丁｜代理對帳</title>
+<style>
+:root{--bg:#fbf6f1;--card:#fff;--ink:#4a352b;--muted:#8b7569;--line:#ead9cf;--accent:#9a654d;--accent2:#c99c82;--soft:#f4e8df;--ok:#55745e;--warn:#a66c3b;--danger:#a24d4d;--shadow:0 8px 24px rgba(103,75,59,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}.app{max-width:900px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 14px calc(88px + env(safe-area-inset-bottom))}.hero{padding:22px 8px 12px}.brand{font-weight:900;font-size:26px;letter-spacing:.4px}.sub{color:var(--muted);font-size:14px;margin-top:6px}.privacy{margin-top:12px;background:#fff7ed;border:1px solid #efd9c6;border-radius:16px;padding:11px 13px;font-size:13px;color:#7c604e}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}.stat .k{font-size:13px;color:var(--muted)}.stat .v{font-size:27px;font-weight:900;margin-top:5px}.stat small{display:block;color:var(--muted);margin-top:4px}.section{margin-top:16px}.section-title{display:flex;align-items:center;justify-content:space-between;margin:0 4px 9px;font-weight:900;font-size:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.field{margin-bottom:13px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.input,select,textarea{width:100%;border:1px solid #ddc9bd;background:#fff;border-radius:14px;padding:12px 13px;outline:none}.input:focus,select:focus,textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(201,156,130,.15)}textarea{min-height:88px;resize:vertical}.readonly{background:#faf6f2}.calc{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--soft);border-radius:18px;padding:12px;margin:12px 0}.calc div{background:rgba(255,255,255,.7);border-radius:14px;padding:10px}.calc b{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.calc strong{font-size:18px}.checkbox{display:flex;gap:9px;align-items:center;padding:9px 0}.checkbox input{width:20px;height:20px}.btn{border:0;border-radius:15px;padding:13px 16px;font-weight:900}.btn-primary{background:var(--accent);color:white}.btn-soft{background:var(--soft)}.btn-danger{background:#f6e6e4;color:var(--danger)}.btn-full{width:100%}.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(255,250,246,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:20}.tabs-inner{width:min(900px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tab{border:0;background:transparent;border-radius:14px;padding:9px 4px;color:var(--muted);font-size:12px;font-weight:800}.tab.active{background:var(--soft);color:var(--ink)}.view{display:none}.view.active{display:block}.order-card{border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:10px;background:#fff}.order-top{display:flex;justify-content:space-between;gap:10px}.order-name{font-weight:900}.badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:800;background:var(--soft);margin:5px 4px 0 0}.badge.ok{background:#e8f1e9;color:var(--ok)}.badge.warn{background:#fff0df;color:var(--warn)}.money-line{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:11px}.money-line div{background:#faf6f2;border-radius:12px;padding:8px;font-size:12px}.money-line strong{display:block;font-size:15px;margin-top:2px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1;border:0;border-radius:12px;padding:9px;font-size:12px;font-weight:900}.filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.story-wrap{background:linear-gradient(180deg,#f8ece4,#fff9f4);border:1px solid var(--line);border-radius:28px;padding:18px;min-height:620px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}.story-wrap:before,.story-wrap:after{content:"";position:absolute;border-radius:999px;background:rgba(201,156,130,.18)}.story-wrap:before{width:170px;height:170px;right:-60px;top:-40px}.story-wrap:after{width:130px;height:130px;left:-50px;bottom:60px}.story-title{position:relative;z-index:1;text-align:center}.story-title h2{font-size:28px;margin:6px 0}.story-title p{color:var(--muted);margin:0}.story-stats{position:relative;z-index:1;display:grid;gap:12px}.story-stat{background:rgba(255,255,255,.86);border:1px solid #ecd8cc;border-radius:20px;padding:17px;text-align:center}.story-stat span{display:block;color:var(--muted);font-size:13px}.story-stat strong{display:block;font-size:30px;margin-top:4px}.story-foot{position:relative;z-index:1;text-align:center;color:var(--muted);font-size:13px}.note{font-size:12px;color:var(--muted);line-height:1.6}.empty{text-align:center;color:var(--muted);padding:28px 8px}.flavors{display:grid;grid-template-columns:1fr 1fr;gap:8px}.flavor{background:#faf6f2;border-radius:14px;padding:10px}.flavor label{margin-bottom:5px}.modal{position:fixed;inset:0;background:rgba(49,34,27,.4);display:none;align-items:flex-end;justify-content:center;z-index:50}.modal.show{display:flex}.sheet{background:var(--bg);width:min(900px,100%);max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom))}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheet-head h3{margin:0}.x{border:0;background:var(--soft);width:36px;height:36px;border-radius:50%}.hr{height:1px;background:var(--line);margin:12px 0}.small-btn{border:0;background:var(--soft);border-radius:12px;padding:9px 11px;font-size:12px;font-weight:800}.danger-text{color:var(--danger)}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}.app{padding-left:22px;padding-right:22px}.story-wrap{min-height:680px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="brand">🐾 歐迪雞蛋殼布丁 🍮</div>
+    <div class="sub">代理訂單管理・Data Store 同步版</div>
+    <div class="privacy">📌 訂單流程：網站新訂單先進「待確認」，此時完全不算錢；確認客人真的要買後變成「已確認・待付款」；只有你手動標記「已收到付款」後才開始計入收入與應匯老闆娘。<br><span id="syncState" style="display:block;margin-top:6px">⏳ 正在同步 Data Store…</span></div>
+  </header>
+
+  <main>
+    <section id="home" class="view active">
+      <div class="grid">
+        <div class="stat"><div class="k">待確認訂單</div><div class="v" id="statAwaitConfirm">0</div><small>網站剛送進來・不算錢</small></div>
+        <div class="stat"><div class="k">已確認・待付款</div><div class="v" id="statAwaitPay">0</div><small>已確認要買・仍不算錢</small></div>
+        <div class="stat"><div class="k">今日收款</div><div class="v" id="statToday">$0</div><small>只算已付款</small></div>
+        <div class="stat"><div class="k">本月收款</div><div class="v" id="statMonth">$0</div><small>布丁費＋運費・只算已付款</small></div>
+        <div class="stat"><div class="k">我的代理收入</div><div class="v" id="statCommission">$0</div><small>每盒 $150・只算已付款</small></div>
+        <div class="stat"><div class="k">待匯老闆娘</div><div class="v" id="statPending">$0</div><small>已付款但尚未標記已匯</small></div>
+      </div>
+      <div class="section">
+        <div class="section-title"><span>最近訂單</span><button class="small-btn" onclick="loadOrders(true)">↻ 重新同步</button></div>
+        <div id="recentOrders"></div>
+      </div>
+      <div class="section card">
+        <div class="section-title" style="margin:0 0 10px"><span>固定規則</span></div>
+        <div class="note">🥚 雞蛋殼版：9入／盒，$350<br>🫙 玻璃瓶版：8入／盒，$400<br>💰 你的代理費：每盒固定 $150<br>公式：客人總付款＝布丁費＋運費；應匯老闆娘＝客人總付款－代理費。</div>
+      </div>
+    </section>
+
+    <section id="orders" class="view">
+      <div class="section-title"><span>全部訂單</span><button class="small-btn" onclick="loadOrders(true)">↻ 重新同步</button></div>
+      <div class="filters">
+        <input id="search" class="input" placeholder="搜尋姓名／IG" oninput="renderOrders()">
+        <select id="filterType" onchange="renderOrders()"><option value="">全部商品</option><option value="egg">雞蛋殼</option><option value="glass">玻璃瓶</option></select>
+        <select id="filterPaid" onchange="renderOrders()"><option value="">全部付款狀態</option><option value="paid">已付款</option><option value="unpaid">未付款</option></select>
+        <select id="filterRemit" onchange="renderOrders()"><option value="">全部匯款狀態</option><option value="done">已匯老闆娘</option><option value="pending">待匯老闆娘</option></select>
+      </div>
+      <div id="ordersList"></div>
+    </section>
+
+    <section id="share" class="view">
+      <div class="section-title"><span>IG 限動分享</span></div>
+      <div class="card" style="margin-bottom:12px">
+        <label style="font-size:13px;font-weight:800">統計期間</label>
+        <select id="sharePeriod" onchange="renderShare()" style="margin-top:7px"><option value="today">今天</option><option value="month" selected>本月</option><option value="all">全部</option></select>
+        <div class="note" style="margin-top:8px">這一頁不顯示客人姓名、IG、電話或地址，可以直接截圖放限動。</div>
+      </div>
+      <div class="story-wrap" id="storyCard">
+        <div class="story-title"><div>🐾 ODIE EGG SHELL PUDDING 🍮</div><h2>我的代理紀錄</h2><p id="shareRange">本月真實統計</p></div>
+        <div class="story-stats">
+          <div class="story-stat"><span>已付款訂單數</span><strong id="shareOrders">0 筆</strong></div>
+          <div class="story-stat"><span>客人總付款</span><strong id="shareRevenue">$0</strong></div>
+          <div class="story-stat"><span>我的代理收入</span><strong id="shareCommission">$0</strong></div>
+          <div class="story-stat"><span>累計售出</span><strong id="shareBoxes">0 盒</strong></div>
+        </div>
+        <div class="story-foot">每盒代理費固定 $150<br>實際訂單紀錄・不含顧客個資 🤎</div>
+      </div>
+    </section>
+
+    <section id="backup" class="view">
+      <div class="section-title"><span>同步與備份</span></div>
+      <div class="card">
+        <div class="section-title" style="margin:0 0 10px"><span>Data Store 同步</span></div>
+        <p class="note">正式訂單以 Make Data Store 為準。這台裝置只保留最近一次同步快取；清除快取不會刪除正式訂單。</p>
+        <button class="btn btn-primary btn-full" onclick="loadOrders(true)">重新同步 Data Store</button>
+        <div style="height:8px"></div>
+        <button class="btn btn-soft btn-full" onclick="exportData()">匯出目前訂單 JSON 備份</button>
+        <div class="hr"></div>
+        <button class="btn btn-danger btn-full" onclick="clearCache()">清除本機快取</button>
+        <div style="height:8px"></div>
+        <button class="btn btn-danger btn-full" onclick="logoutDevice()">解除這台裝置的管理權限</button>
+      </div>
+      <div class="section card">
+        <div class="section-title" style="margin:0 0 10px"><span>之後可再升級</span></div>
+        <div class="note">目前已串接：客人下單 → LINE 通知 → Make Data Store → 管理頁。下一階段可再加上付款截圖、出貨狀態或報表匯出。</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav class="tabs"><div class="tabs-inner">
+<button class="tab active" data-view="home" onclick="switchView('home',this)">🏠<br>總覽</button>
+<button class="tab" data-view="orders" onclick="switchView('orders',this)">🧾<br>訂單</button>
+<button class="tab" data-view="share" onclick="switchView('share',this)">📱<br>限動</button>
+<button class="tab" data-view="backup" onclick="switchView('backup',this)">⚙️<br>備份</button>
+</div></nav>
+
+<div class="modal" id="orderModal" style="display:none"><div class="sheet">
+  <div class="sheet-head"><h3 id="modalTitle">新增訂單</h3><button class="x" onclick="closeOrderModal()">✕</button></div>
+  <form id="orderForm" onsubmit="saveOrder(event)">
+    <input type="hidden" id="editId">
+    <div class="row"><div class="field"><label>下單日期</label><input id="date" type="date" class="input" required></div><div class="field"><label>商品版本</label><select id="productType" onchange="updateProductRules()"><option value="egg">🥚 雞蛋殼版</option><option value="glass">🫙 玻璃瓶版</option></select></div></div>
+    <div class="row"><div class="field"><label>顧客姓名</label><input id="name" class="input" required placeholder="例如：王小姐"></div><div class="field"><label>Instagram 帳號</label><input id="instagram" class="input" required placeholder="例如：7.5_ly"></div></div>
+    <div class="field"><label>電話</label><input id="phone" class="input" inputmode="tel" placeholder="09xxxxxxxx"></div>
+    <div class="row"><div class="field"><label>訂購盒數</label><input id="boxes" type="number" min="1" value="1" class="input" required oninput="updateCalc();updateFlavorHint()"></div><div class="field"><label>每盒規格</label><input id="boxRule" class="input readonly" readonly></div></div>
+    <div class="field"><label>口味數量（顆／杯）</label><div class="flavors">
+      <div class="flavor"><label>🐣 原味</label><input id="original" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label>🍵 抹茶</label><input id="matcha" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label>🍪 Oreo</label><input id="oreo" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label>🧋 珍珠奶茶</label><input id="boba" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+    </div><div class="note" id="flavorHint" style="margin-top:7px"></div></div>
+    <div class="row"><div class="field"><label>配送／面交方式</label><select id="deliveryMethod" onchange="updateDestinationLabel()"></select></div><div class="field"><label id="destinationLabel">地點／地址</label><input id="destination" class="input" placeholder="填寫地址、門市或面交地點"></div></div>
+    <div class="row"><div class="field"><label>希望日期</label><input id="deliveryDate" type="date" class="input"></div><div class="field"><label>希望時段</label><input id="deliveryTime" class="input" placeholder="例如：下午／17:00後"></div></div>
+    <div class="field" id="shippingField" style="display:none"><label>運費</label><input id="shipping" type="number" min="0" value="0" class="input" inputmode="numeric"><div class="note">只有確認已付款時才會填寫並開始計算。</div></div>
+    <div class="privacy" style="margin:0 0 13px">💡 新增／剛匯入的訂單預設為「待確認」，這階段不計算布丁費、運費、代理費與應匯老闆娘。之後請到訂單卡片手動確認流程。</div><input id="paid" type="checkbox" hidden><input id="remitted" type="checkbox" hidden>
+    <div class="field"><label>備註</label><textarea id="note" placeholder="付款、配送、特殊需求等"></textarea></div>
+    <button class="btn btn-primary btn-full" type="submit">儲存訂單</button>
+  </form>
+</div></div>
+
+<script>
+const KEY='odie_order_datastore_cache_v1';
+const API_URL='https://hook.us2.make.com/ys61s467hw7qhggpmkijeqvjku9dwqut';
+const ACCESS_KEY='odie_api_access_v1';
+function accessToken(){
+  const p=new URLSearchParams(location.search);
+  const h=new URLSearchParams(location.hash.replace(/^#/,''));
+  const incoming=h.get('access')||p.get('access')||'';
+  if(incoming){localStorage.setItem(ACCESS_KEY,incoming);return incoming}
+  return localStorage.getItem(ACCESS_KEY)||'';
+}
+function apiParams(extra={}){
+  const a=accessToken();
+  const q=new URLSearchParams(extra);
+  if(a)q.set('auth',a);
+  return q;
+}
+
+const RULES={egg:{name:'雞蛋殼版',price:350,units:9},glass:{name:'玻璃瓶版',price:400,units:8}};
+const COMMISSION_PER_BOX=150;
+let orders=loadCache();
+let syncing=false;
+
+function loadCache(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(orders))}
+function money(n){return '$'+Number(n||0).toLocaleString('zh-TW')}
+function todayStr(){const d=new Date();const off=d.getTimezoneOffset();return new Date(d.getTime()-off*60000).toISOString().slice(0,10)}
+function currentMonth(){return todayStr().slice(0,7)}
+function isPaid(o){return o.status==='paid'||o.status==='remitted'}
+function calcOrder(o){const rule=RULES[o.productType]||RULES.egg;const boxes=Number(o.boxes||0);const baseProduct=rule.price*boxes;const shipping=Number(o.shipping??o.shippingFee??0);const storedProduct=Number(o.puddingFee||0);const storedTotal=Number(o.customerTotal||0);const storedCommission=Number(o.agentFee||0);const storedOwner=Number(o.ownerAmount||0);const product=isPaid(o)&&storedProduct>0?storedProduct:baseProduct;const total=isPaid(o)&&storedTotal>0?storedTotal:product+shipping;const commission=isPaid(o)&&storedCommission>0?storedCommission:boxes*COMMISSION_PER_BOX;const owner=isPaid(o)&&storedOwner>0?storedOwner:total-commission;return{product,shipping,total,commission,owner}}
+function statusText(o){return ({pending:'待確認',confirmed:'已確認・待付款',paid:'已付款',remitted:'已匯老闆娘',cancelled:'已取消'})[o.status]||'待確認'}
+function statusClass(o){return o.status==='paid'||o.status==='remitted'?'ok':'warn'}
+function normalizeProductType(v){return v==='glass_bottle'||v==='glass'?'glass':'egg'}
+function normalizeOrder(x){
+  const createdAt=x.createdAt||'';
+  return {
+    ...x,
+    id:x.key||x.id||x.orderId,
+    key:x.key||x.id||'',
+    date:(createdAt||x.date||'').slice(0,10),
+    name:x.customerName??x.name??'',
+    productType:normalizeProductType(x.productType),
+    destination:x.deliveryLocation??x.destination??'',
+    deliveryDate:x.desiredDate??x.deliveryDate??'',
+    deliveryTime:x.desiredTime??x.deliveryTime??'',
+    shipping:Number(x.shippingFee??x.shipping??0),
+    puddingFee:Number(x.puddingFee??0),
+    agentFee:Number(x.agentFee??0),
+    customerTotal:Number(x.customerTotal??0),
+    ownerAmount:Number(x.ownerAmount??0),
+    remittedToOwner:x.remittedToOwner===true||x.remittedToOwner==='true'
+  };
+}
+function setSyncText(text,kind=''){
+  const el=document.getElementById('syncState');
+  if(!el)return;
+  el.textContent=text;
+  el.style.color=kind==='error'?'var(--danger)':kind==='ok'?'var(--ok)':'var(--muted)';
+}
+async function loadOrders(showAlert=false){
+  if(syncing)return;
+  if(!accessToken()){orders=[];renderAll();setSyncText('🔒 請使用你的私人管理連結開啟','error');if(showAlert)alert('這個網址沒有管理權限。請使用你的私人管理連結。');return}
+  syncing=true;setSyncText('⏳ 正在同步 Data Store…');
+  try{
+    const r=await fetch(API_URL+'?'+apiParams({t:Date.now()}).toString(),{method:'GET',cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    if(!j||!Array.isArray(j.orders))throw new Error('回傳格式不正確');
+    orders=j.orders.map(normalizeOrder);
+    persist();renderAll();setSyncText('✅ 已同步 Data Store','ok');
+    if(showAlert)alert(`同步完成 ✅\n目前 ${orders.length} 筆訂單`);
+  }catch(e){
+    console.error(e);setSyncText('⚠️ 同步失敗，顯示上次快取','error');
+    if(showAlert)alert('同步失敗，請稍後再試。\n'+e.message);
+    renderAll();
+  }finally{syncing=false}
+}
+function switchView(id,el){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');if(id==='orders')renderOrders();if(id==='share')renderShare();if(id==='home')renderDashboard()}
+function renderAll(){renderDashboard();renderOrders();renderShare()}
+function renderDashboard(){const t=todayStr(),m=currentMonth();let today=0,month=0,commission=0,pendingOwner=0;const paidOrders=orders.filter(isPaid);paidOrders.forEach(o=>{const c=calcOrder(o);const d=(o.paidAt||o.date||'').slice(0,10);if(d===t)today+=c.total;if((o.paidAt||o.date||'').startsWith(m))month+=c.total;commission+=c.commission;if(o.status==='paid')pendingOwner+=c.owner});statAwaitConfirm.textContent=orders.filter(o=>o.status==='pending').length;statAwaitPay.textContent=orders.filter(o=>o.status==='confirmed').length;statToday.textContent=money(today);statMonth.textContent=money(month);statCommission.textContent=money(commission);statPending.textContent=money(pendingOwner);renderRecent()}
+function orderHTML(o){const c=calcOrder(o),r=RULES[o.productType]||RULES.egg;const moneyBlock=isPaid(o)?`<div class="money-line"><div>布丁費<strong>${money(c.product)}</strong></div><div>運費<strong>${money(c.shipping)}</strong></div><div>客人總付款<strong>${money(c.total)}</strong></div><div>代理費<strong>${money(c.commission)}</strong></div><div>應匯老闆娘<strong>${money(c.owner)}</strong></div></div>`:`<div class="privacy" style="margin-top:10px">目前狀態：${statusText(o)}。<b>尚未收到付款，所以這筆不計入任何收入，也先不計算金額。</b></div>`;
+let actions='';if(o.status==='pending')actions=`<button onclick="confirmOrder('${o.id}')">確認客人真的要</button><button onclick="cancelOrder('${o.id}')">取消訂單</button>`;else if(o.status==='confirmed')actions=`<button onclick="markPaid('${o.id}')">已收到付款</button><button onclick="backPending('${o.id}')">改回待確認</button>`;else if(o.status==='paid')actions=`<button onclick="markRemitted('${o.id}')">標記已匯老闆娘</button><button onclick="undoPaid('${o.id}')">取消已付款</button>`;else if(o.status==='remitted')actions=`<button onclick="undoRemit('${o.id}')">取消已匯標記</button>`;
+return `<div class="order-card"><div class="order-top"><div><div class="order-name">${esc(o.name||'未填姓名')} · @${esc((o.instagram||'').replace(/^@/,''))}</div><span class="badge">${r.name}・${o.boxes}盒</span><span class="badge">${esc(deliveryText(o)||'未填配送')}</span><span class="badge ${statusClass(o)}">${statusText(o)}</span></div><div style="font-size:12px;color:var(--muted)">${esc(o.date||'')}</div></div><div class="note" style="margin-top:10px">📞 ${esc(o.phone||'-')}<br>📍 ${esc(o.destination||'-')}<br>📅 ${esc(o.deliveryDate||'-')} ${esc(o.deliveryTime||'')}<br>口味：原味 ${o.original||0}｜抹茶 ${o.matcha||0}｜Oreo ${o.oreo||0}｜珍珠奶茶 ${o.boba||0}<br>備註：${esc(o.note||'無')}</div>${moneyBlock}<div class="actions">${actions}</div></div>`}
+function deliveryText(o){const m=o.deliveryMethod||'';if(m==='meetup')return (o.destination||'').split('｜')[0]||'面交';if(m==='home_delivery')return '黑貓冷藏宅配';if(m==='seven_eleven')return '7-ELEVEN';return m}
+function renderRecent(){const list=[...orders].sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||'')).slice(0,4);recentOrders.innerHTML=list.length?list.map(orderHTML).join(''):'<div class="empty">還沒有訂單</div>'}
+function renderOrders(){const q=(search?.value||'').toLowerCase(),type=filterType?.value||'',pf=filterPaid?.value||'',rem=filterRemit?.value||'';let list=[...orders].filter(o=>{if(type&&o.productType!==type)return false;if(pf==='paid'&&!isPaid(o))return false;if(pf==='unpaid'&&isPaid(o))return false;if(rem==='done'&&o.status!=='remitted')return false;if(rem==='pending'&&o.status!=='paid')return false;if(q&&!(`${o.name} ${o.instagram}`).toLowerCase().includes(q))return false;return true}).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));ordersList.innerHTML=list.length?list.map(orderHTML).join(''):'<div class="empty">沒有符合條件的訂單</div>'}
+function renderShare(){const p=sharePeriod.value,t=todayStr(),m=currentMonth();let list=orders.filter(isPaid).filter(o=>{const d=(o.paidAt||o.date||'');return p==='today'?d.slice(0,10)===t:p==='month'?d.startsWith(m):true});let rev=0,comm=0,boxes=0;list.forEach(o=>{const c=calcOrder(o);rev+=c.total;comm+=c.commission;boxes+=Number(o.boxes||0)});shareOrders.textContent=list.length+' 筆';shareRevenue.textContent=money(rev);shareCommission.textContent=money(comm);shareBoxes.textContent=boxes+' 盒';shareRange.textContent=p==='today'?'今天已付款訂單':p==='month'?'本月已付款訂單':'全部已付款訂單'}
+function mutablePayload(o,patch={}){
+  const n={...o,...patch};
+  const c=calcOrder(n);
+  const paid=n.status==='paid'||n.status==='remitted';
+  return {
+    key:n.key||n.id,
+    status:n.status||'pending',
+    shippingFee:paid?Number(n.shipping??n.shippingFee??0):0,
+    puddingFee:paid?c.product:0,
+    agentFee:paid?c.commission:0,
+    customerTotal:paid?c.total:0,
+    ownerAmount:paid?c.owner:0,
+    confirmedAt:n.confirmedAt||'',
+    paidAt:n.paidAt||'',
+    remittedAt:n.remittedAt||'',
+    cancelledAt:n.cancelledAt||'',
+    remittedToOwner:n.status==='remitted'?'true':'false'
+  };
+}
+async function updateRemote(o,patch){
+  if(!o?.key){alert('這筆訂單缺少 Data Store key，請先重新同步。');return false}
+  const data=mutablePayload(o,patch);const qs=apiParams();
+  Object.entries(data).forEach(([k,v])=>{if(v!==undefined&&v!==null)qs.set(k,String(v))});
+  setSyncText('⏳ 正在更新 Data Store…');
+  try{
+    const r=await fetch(API_URL+'?'+qs.toString(),{method:'GET',cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json().catch(()=>({ok:true}));
+    if(j&&j.ok===false)throw new Error('更新被拒絕');
+    Object.assign(o,patch);persist();renderAll();setSyncText('✅ 已更新 Data Store','ok');
+    await loadOrders(false);return true;
+  }catch(e){console.error(e);setSyncText('⚠️ 更新失敗','error');alert('更新失敗，原訂單沒有改動。\n'+e.message);return false}
+}
+async function confirmOrder(id){const o=orders.find(x=>x.id===id);if(!o)return;await updateRemote(o,{status:'confirmed',confirmedAt:new Date().toISOString(),cancelledAt:''})}
+async function backPending(id){const o=orders.find(x=>x.id===id);if(!o)return;await updateRemote(o,{status:'pending',confirmedAt:'',paidAt:'',remittedAt:'',cancelledAt:'',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,remittedToOwner:false})}
+async function markPaid(id){const o=orders.find(x=>x.id===id);if(!o)return;let def=deliveryText(o).includes('面交')?'0':'225';let s=prompt('請輸入這筆實際運費。面交填 0；宅配／超商填實際運費。\n按確定後，這筆才會正式開始計算。',String(o.shipping||def));if(s===null)return;if(s===''||isNaN(Number(s))||Number(s)<0){alert('請輸入正確運費');return}const patch={status:'paid',shipping:Number(s),shippingFee:Number(s),paidAt:new Date().toISOString(),remittedAt:'',cancelledAt:'',remittedToOwner:false};const ok=await updateRemote(o,patch);if(ok){const c=calcOrder({...o,...patch});alert(`已標記收到付款 ✅\n布丁費 ${money(c.product)}\n運費 ${money(c.shipping)}\n客人總付款 ${money(c.total)}\n我的代理費 ${money(c.commission)}\n應匯老闆娘 ${money(c.owner)}`)}}
+async function undoPaid(id){const o=orders.find(x=>x.id===id);if(o&&confirm('取消已付款後，這筆會從收入統計扣除，確定嗎？'))await updateRemote(o,{status:'confirmed',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,paidAt:'',remittedAt:'',remittedToOwner:false})}
+async function markRemitted(id){const o=orders.find(x=>x.id===id);if(o)await updateRemote(o,{status:'remitted',remittedAt:new Date().toISOString(),remittedToOwner:true})}
+async function undoRemit(id){const o=orders.find(x=>x.id===id);if(o)await updateRemote(o,{status:'paid',remittedAt:'',remittedToOwner:false})}
+async function cancelOrder(id){const o=orders.find(x=>x.id===id);if(o&&confirm('確定取消這筆訂單？取消後永遠不計入收入。'))await updateRemote(o,{status:'cancelled',cancelledAt:new Date().toISOString(),confirmedAt:'',paidAt:'',remittedAt:'',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,remittedToOwner:false})}
+function exportData(){const blob=new Blob([JSON.stringify({version:2,source:'Make Data Store',exportedAt:new Date().toISOString(),orders},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='odie-order-backup-'+todayStr()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function clearCache(){if(confirm('只清除這台手機的快取，不會刪除 Make Data Store 的訂單。確定嗎？')){localStorage.removeItem(KEY);orders=[];renderAll();setSyncText('本機快取已清除，按重新同步即可恢復','error')}}
+function logoutDevice(){if(confirm('解除後，這台裝置必須重新使用你的私人管理連結才能讀取訂單。確定嗎？')){localStorage.removeItem(ACCESS_KEY);localStorage.removeItem(KEY);location.href=location.pathname}}
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+renderAll();
+loadOrders(false);
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+</script>
+</body>
+</html>
