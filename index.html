@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="歐迪訂單" />
 <link rel="apple-touch-icon" href="./icon-180.png" />
+<link rel="manifest" href="./manifest.webmanifest" />
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png" />
 <title>歐迪雞蛋殼布丁｜代理對帳</title>
 <style>
@@ -30,9 +31,15 @@
         <div class="stat"><div class="k">待確認訂單</div><div class="v" id="statAwaitConfirm">0</div><small>網站剛送進來・不算錢</small></div>
         <div class="stat"><div class="k">已確認・待付款</div><div class="v" id="statAwaitPay">0</div><small>已確認要買・仍不算錢</small></div>
         <div class="stat"><div class="k">今日收款</div><div class="v" id="statToday">$0</div><small>只算已付款</small></div>
-        <div class="stat"><div class="k">本月收款</div><div class="v" id="statMonth">$0</div><small>布丁費＋運費・只算已付款</small></div>
-        <div class="stat"><div class="k">我的代理收入</div><div class="v" id="statCommission">$0</div><small>每盒 $150・只算已付款</small></div>
         <div class="stat"><div class="k">待匯老闆娘</div><div class="v" id="statPending">$0</div><small>已付款但尚未標記已匯</small></div>
+      </div>
+      <div class="section">
+        <div class="section-title"><span>本月結算</span><span class="note">每月 1 日重新計算</span></div>
+        <div class="grid">
+          <div class="stat"><div class="k">本月已完成</div><div class="v" id="statMonthCompleted">0 筆 / 0 盒</div><small>本月已付款＋已匯款訂單</small></div>
+          <div class="stat"><div class="k">本月總收入</div><div class="v" id="statMonthRevenue">$0</div><small>布丁費＋運費</small></div>
+          <div class="stat"><div class="k">本月我的收入</div><div class="v" id="statMonthCommission">$0</div><small>代理費・每盒 $150</small></div>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><span>最近訂單</span><button class="small-btn" onclick="loadOrders(true)">↻ 重新同步</button></div>
@@ -56,21 +63,18 @@
     </section>
 
     <section id="share" class="view">
-      <div class="section-title"><span>IG 限動分享</span></div>
+      <div class="section-title"><span>銷售成果</span></div>
       <div class="card" style="margin-bottom:12px">
-        <label style="font-size:13px;font-weight:800">統計期間</label>
-        <select id="sharePeriod" onchange="renderShare()" style="margin-top:7px"><option value="today">今天</option><option value="month" selected>本月</option><option value="all">全部</option></select>
-        <div class="note" style="margin-top:8px">這一頁不顯示客人姓名、IG、電話或地址，可以直接截圖放限動。</div>
+        <div class="note">這一頁是「從開始使用至今」的累計銷售成果，不會每月歸零；不顯示客人姓名、IG、電話或地址，適合每個月截圖分享，讓大家看見一路累積的成果。</div>
       </div>
       <div class="story-wrap" id="storyCard">
-        <div class="story-title"><div>🐾 ODIE EGG SHELL PUDDING 🍮</div><h2>我的代理紀錄</h2><p id="shareRange">本月真實統計</p></div>
+        <div class="story-title"><div>🐾 ODIE EGG SHELL PUDDING 🍮</div><h2>我的銷售成果</h2><p id="shareRange">截至今日累計</p></div>
         <div class="story-stats">
-          <div class="story-stat"><span>已付款訂單數</span><strong id="shareOrders">0 筆</strong></div>
-          <div class="story-stat"><span>客人總付款</span><strong id="shareRevenue">$0</strong></div>
-          <div class="story-stat"><span>我的代理收入</span><strong id="shareCommission">$0</strong></div>
-          <div class="story-stat"><span>累計售出</span><strong id="shareBoxes">0 盒</strong></div>
+          <div class="story-stat"><span>已完成／累計售出</span><strong id="shareCompleted">0 筆 / 0 盒</strong></div>
+          <div class="story-stat"><span>總收入（布丁＋運費）</span><strong id="shareRevenue">$0</strong></div>
+          <div class="story-stat"><span>我的收入（代理費）</span><strong id="shareCommission">$0</strong></div>
         </div>
-        <div class="story-foot">每盒代理費固定 $150<br>實際訂單紀錄・不含顧客個資 🤎</div>
+        <div class="story-foot">從開始使用起持續累計・不會每月歸零<br>每盒代理費固定 $150・不含顧客個資 🤎</div>
       </div>
     </section>
 
@@ -98,7 +102,7 @@
 <nav class="tabs"><div class="tabs-inner">
 <button class="tab active" data-view="home" onclick="switchView('home',this)">🏠<br>總覽</button>
 <button class="tab" data-view="orders" onclick="switchView('orders',this)">🧾<br>訂單</button>
-<button class="tab" data-view="share" onclick="switchView('share',this)">📱<br>限動</button>
+<button class="tab" data-view="share" onclick="switchView('share',this)">📊<br>成果</button>
 <button class="tab" data-view="backup" onclick="switchView('backup',this)">⚙️<br>備份</button>
 </div></nav>
 
@@ -148,7 +152,7 @@ const COMMISSION_PER_BOX=150;
 let orders=loadCache();
 let syncing=false;
 
-function loadCache(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+function loadCache(){try{return JSON.parse(localStorage.getItem(KEY)||'[]').filter(o=>o.status!=='cancelled')}catch(e){return[]}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(orders))}
 function money(n){return '$'+Number(n||0).toLocaleString('zh-TW')}
 function todayStr(){const d=new Date();const off=d.getTimezoneOffset();return new Date(d.getTime()-off*60000).toISOString().slice(0,10)}
@@ -193,7 +197,7 @@ async function loadOrders(showAlert=false){
     if(!r.ok)throw new Error('HTTP '+r.status);
     const j=await r.json();
     if(!j||!Array.isArray(j.orders))throw new Error('回傳格式不正確');
-    orders=j.orders.map(normalizeOrder);
+    orders=j.orders.map(normalizeOrder).filter(o=>o.status!=='cancelled');
     persist();renderAll();setSyncText('✅ 已同步 Data Store','ok');
     if(showAlert)alert(`同步完成 ✅\n目前 ${orders.length} 筆訂單`);
   }catch(e){
@@ -204,14 +208,14 @@ async function loadOrders(showAlert=false){
 }
 function switchView(id,el){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');if(id==='orders')renderOrders();if(id==='share')renderShare();if(id==='home')renderDashboard()}
 function renderAll(){renderDashboard();renderOrders();renderShare()}
-function renderDashboard(){const t=todayStr(),m=currentMonth();let today=0,month=0,commission=0,pendingOwner=0;const paidOrders=orders.filter(isPaid);paidOrders.forEach(o=>{const c=calcOrder(o);const d=(o.paidAt||o.date||'').slice(0,10);if(d===t)today+=c.total;if((o.paidAt||o.date||'').startsWith(m))month+=c.total;commission+=c.commission;if(o.status==='paid')pendingOwner+=c.owner});statAwaitConfirm.textContent=orders.filter(o=>o.status==='pending').length;statAwaitPay.textContent=orders.filter(o=>o.status==='confirmed').length;statToday.textContent=money(today);statMonth.textContent=money(month);statCommission.textContent=money(commission);statPending.textContent=money(pendingOwner);renderRecent()}
+function renderDashboard(){const t=todayStr(),m=currentMonth();let today=0,pendingOwner=0,monthRevenue=0,monthCommission=0,monthBoxes=0,monthCount=0;const paidOrders=orders.filter(isPaid);paidOrders.forEach(o=>{const c=calcOrder(o);const d=(o.paidAt||o.date||'').slice(0,10);if(d===t)today+=c.total;if(d.startsWith(m)){monthCount+=1;monthBoxes+=Number(o.boxes||0);monthRevenue+=c.total;monthCommission+=c.commission}if(o.status==='paid')pendingOwner+=c.owner});statAwaitConfirm.textContent=orders.filter(o=>o.status==='pending').length;statAwaitPay.textContent=orders.filter(o=>o.status==='confirmed').length;statToday.textContent=money(today);statPending.textContent=money(pendingOwner);statMonthCompleted.textContent=monthCount+' 筆 / '+monthBoxes+' 盒';statMonthRevenue.textContent=money(monthRevenue);statMonthCommission.textContent=money(monthCommission);renderRecent()}
 function orderHTML(o){const c=calcOrder(o),r=RULES[o.productType]||RULES.egg;const moneyBlock=isPaid(o)?`<div class="money-line"><div>布丁費<strong>${money(c.product)}</strong></div><div>運費<strong>${money(c.shipping)}</strong></div><div>客人總付款<strong>${money(c.total)}</strong></div><div>代理費<strong>${money(c.commission)}</strong></div><div>應匯老闆娘<strong>${money(c.owner)}</strong></div></div>`:`<div class="privacy" style="margin-top:10px">目前狀態：${statusText(o)}。<b>尚未收到付款，所以這筆不計入任何收入，也先不計算金額。</b></div>`;
 let actions='';if(o.status==='pending')actions=`<button onclick="confirmOrder('${o.id}')">確認客人真的要</button><button onclick="cancelOrder('${o.id}')">取消訂單</button>`;else if(o.status==='confirmed')actions=`<button onclick="markPaid('${o.id}')">已收到付款</button><button onclick="backPending('${o.id}')">改回待確認</button>`;else if(o.status==='paid')actions=`<button onclick="markRemitted('${o.id}')">標記已匯老闆娘</button><button onclick="undoPaid('${o.id}')">取消已付款</button>`;else if(o.status==='remitted')actions=`<button onclick="undoRemit('${o.id}')">取消已匯標記</button>`;
 return `<div class="order-card"><div class="order-top"><div><div class="order-name">${esc(o.name||'未填姓名')} · @${esc((o.instagram||'').replace(/^@/,''))}</div><span class="badge">${r.name}・${o.boxes}盒</span><span class="badge">${esc(deliveryText(o)||'未填配送')}</span><span class="badge ${statusClass(o)}">${statusText(o)}</span></div><div style="font-size:12px;color:var(--muted)">${esc(o.date||'')}</div></div><div class="note" style="margin-top:10px">📞 ${esc(o.phone||'-')}<br>📍 ${esc(o.destination||'-')}<br>📅 ${esc(o.deliveryDate||'-')} ${esc(o.deliveryTime||'')}<br>口味：原味 ${o.original||0}｜抹茶 ${o.matcha||0}｜Oreo ${o.oreo||0}｜珍珠奶茶 ${o.boba||0}<br>備註：${esc(o.note||'無')}</div>${moneyBlock}<div class="actions">${actions}</div></div>`}
 function deliveryText(o){const m=o.deliveryMethod||'';if(m==='meetup')return (o.destination||'').split('｜')[0]||'面交';if(m==='home_delivery')return '黑貓冷藏宅配';if(m==='seven_eleven')return '7-ELEVEN';return m}
 function renderRecent(){const list=[...orders].sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||'')).slice(0,4);recentOrders.innerHTML=list.length?list.map(orderHTML).join(''):'<div class="empty">還沒有訂單</div>'}
 function renderOrders(){const q=(search?.value||'').toLowerCase(),type=filterType?.value||'',pf=filterPaid?.value||'',rem=filterRemit?.value||'';let list=[...orders].filter(o=>{if(type&&o.productType!==type)return false;if(pf==='paid'&&!isPaid(o))return false;if(pf==='unpaid'&&isPaid(o))return false;if(rem==='done'&&o.status!=='remitted')return false;if(rem==='pending'&&o.status!=='paid')return false;if(q&&!(`${o.name} ${o.instagram}`).toLowerCase().includes(q))return false;return true}).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));ordersList.innerHTML=list.length?list.map(orderHTML).join(''):'<div class="empty">沒有符合條件的訂單</div>'}
-function renderShare(){const p=sharePeriod.value,t=todayStr(),m=currentMonth();let list=orders.filter(isPaid).filter(o=>{const d=(o.paidAt||o.date||'');return p==='today'?d.slice(0,10)===t:p==='month'?d.startsWith(m):true});let rev=0,comm=0,boxes=0;list.forEach(o=>{const c=calcOrder(o);rev+=c.total;comm+=c.commission;boxes+=Number(o.boxes||0)});shareOrders.textContent=list.length+' 筆';shareRevenue.textContent=money(rev);shareCommission.textContent=money(comm);shareBoxes.textContent=boxes+' 盒';shareRange.textContent=p==='today'?'今天已付款訂單':p==='month'?'本月已付款訂單':'全部已付款訂單'}
+function renderShare(){const list=orders.filter(isPaid);let rev=0,comm=0,boxes=0;list.forEach(o=>{const c=calcOrder(o);rev+=c.total;comm+=c.commission;boxes+=Number(o.boxes||0)});shareCompleted.textContent=list.length+' 筆 / '+boxes+' 盒';shareRevenue.textContent=money(rev);shareCommission.textContent=money(comm);shareRange.textContent='截至 '+new Date().toLocaleDateString('zh-TW')+' 累計'}
 function mutablePayload(o,patch={}){
   const n={...o,...patch};
   const c=calcOrder(n);
@@ -251,7 +255,7 @@ async function markPaid(id){const o=orders.find(x=>x.id===id);if(!o)return;let d
 async function undoPaid(id){const o=orders.find(x=>x.id===id);if(o&&confirm('取消已付款後，這筆會從收入統計扣除，確定嗎？'))await updateRemote(o,{status:'confirmed',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,paidAt:'',remittedAt:'',remittedToOwner:false})}
 async function markRemitted(id){const o=orders.find(x=>x.id===id);if(o)await updateRemote(o,{status:'remitted',remittedAt:new Date().toISOString(),remittedToOwner:true})}
 async function undoRemit(id){const o=orders.find(x=>x.id===id);if(o)await updateRemote(o,{status:'paid',remittedAt:'',remittedToOwner:false})}
-async function cancelOrder(id){const o=orders.find(x=>x.id===id);if(o&&confirm('確定取消這筆訂單？取消後永遠不計入收入。'))await updateRemote(o,{status:'cancelled',cancelledAt:new Date().toISOString(),confirmedAt:'',paidAt:'',remittedAt:'',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,remittedToOwner:false})}
+async function cancelOrder(id){const o=orders.find(x=>x.id===id);if(!o)return;if(!confirm('確定取消並刪除這筆訂單？刪除後不保留紀錄，也無法復原。'))return;const ok=await updateRemote(o,{status:'cancelled',cancelledAt:new Date().toISOString(),confirmedAt:'',paidAt:'',remittedAt:'',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,remittedToOwner:false});if(ok){orders=orders.filter(x=>x.id!==id);persist();renderAll();}}
 function exportData(){const blob=new Blob([JSON.stringify({version:2,source:'Make Data Store',exportedAt:new Date().toISOString(),orders},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='odie-order-backup-'+todayStr()+'.json';a.click();URL.revokeObjectURL(a.href)}
 function clearCache(){if(confirm('只清除這台手機的快取，不會刪除 Make Data Store 的訂單。確定嗎？')){localStorage.removeItem(KEY);orders=[];renderAll();setSyncText('本機快取已清除，按重新同步即可恢復','error')}}
 function logoutDevice(){if(confirm('解除後，這台裝置必須重新使用你的私人管理連結才能讀取訂單。確定嗎？')){localStorage.removeItem(ACCESS_KEY);localStorage.removeItem(KEY);location.href=location.pathname}}
