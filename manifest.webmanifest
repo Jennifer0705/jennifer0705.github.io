@@ -1,7 +1,6 @@
 {
   "name": "歐迪雞蛋殼布丁｜訂單管理",
   "short_name": "歐迪訂單",
-  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#fbf6f1",
