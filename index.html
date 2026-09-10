@@ -106,26 +106,27 @@
 <button class="tab" data-view="backup" onclick="switchView('backup',this)">⚙️<br>備份</button>
 </div></nav>
 
-<div class="modal" id="orderModal" style="display:none"><div class="sheet">
-  <div class="sheet-head"><h3 id="modalTitle">新增訂單</h3><button class="x" onclick="closeOrderModal()">✕</button></div>
+<div class="modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display:none"><div class="sheet">
+  <div class="sheet-head"><h3 id="modalTitle">✏️ 修改訂單</h3><button class="x" onclick="closeOrderModal()">✕</button></div>
   <form id="orderForm" onsubmit="saveOrder(event)">
     <input type="hidden" id="editId">
-    <div class="row"><div class="field"><label>下單日期</label><input id="date" type="date" class="input" required></div><div class="field"><label>商品版本</label><select id="productType" onchange="updateProductRules()"><option value="egg">🥚 雞蛋殼版</option><option value="glass">🫙 玻璃瓶版</option></select></div></div>
-    <div class="row"><div class="field"><label>顧客姓名</label><input id="name" class="input" required placeholder="例如：王小姐"></div><div class="field"><label>Instagram 帳號</label><input id="instagram" class="input" required placeholder="例如：7.5_ly"></div></div>
-    <div class="field"><label>電話</label><input id="phone" class="input" inputmode="tel" placeholder="09xxxxxxxx"></div>
-    <div class="row"><div class="field"><label>訂購盒數</label><input id="boxes" type="number" min="1" value="1" class="input" required oninput="updateCalc();updateFlavorHint()"></div><div class="field"><label>每盒規格</label><input id="boxRule" class="input readonly" readonly></div></div>
+    <div class="row"><div class="field"><label for="date">下單日期（保留原紀錄）</label><input id="date" type="date" class="input readonly" readonly></div><div class="field"><label for="productType">商品版本</label><select id="productType" onchange="updateProductRules()"><option value="egg">🥚 雞蛋殼版</option><option value="glass">🫙 玻璃瓶版</option></select></div></div>
+    <div class="row"><div class="field"><label for="name">顧客姓名</label><input id="name" class="input" required placeholder="例如：王小姐"></div><div class="field"><label for="instagram">Instagram 帳號</label><input id="instagram" class="input" required placeholder="例如：7.5_ly"></div></div>
+    <div class="field"><label for="phone">電話</label><input id="phone" class="input" required inputmode="tel" placeholder="09xxxxxxxx"></div>
+    <div class="row"><div class="field"><label for="boxes">訂購盒數</label><input id="boxes" type="number" min="1" value="1" class="input" required oninput="updateCalc();updateFlavorHint();updateDeliveryOptions()"></div><div class="field"><label for="boxRule">每盒規格</label><input id="boxRule" class="input readonly" readonly></div></div>
     <div class="field"><label>口味數量（顆／杯）</label><div class="flavors">
-      <div class="flavor"><label>🐣 原味</label><input id="original" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
-      <div class="flavor"><label>🍵 抹茶</label><input id="matcha" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
-      <div class="flavor"><label>🍪 Oreo</label><input id="oreo" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
-      <div class="flavor"><label>🧋 珍珠奶茶</label><input id="boba" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label for="original">🐣 原味</label><input id="original" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label for="matcha">🍵 抹茶</label><input id="matcha" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label for="oreo">🍪 Oreo</label><input id="oreo" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
+      <div class="flavor"><label for="boba">🧋 珍珠奶茶</label><input id="boba" type="number" min="0" value="0" class="input" oninput="updateFlavorHint()"></div>
     </div><div class="note" id="flavorHint" style="margin-top:7px"></div></div>
-    <div class="row"><div class="field"><label>配送／面交方式</label><select id="deliveryMethod" onchange="updateDestinationLabel()"></select></div><div class="field"><label id="destinationLabel">地點／地址</label><input id="destination" class="input" placeholder="填寫地址、門市或面交地點"></div></div>
-    <div class="row"><div class="field"><label>希望日期</label><input id="deliveryDate" type="date" class="input"></div><div class="field"><label>希望時段</label><input id="deliveryTime" class="input" placeholder="例如：下午／17:00後"></div></div>
-    <div class="field" id="shippingField" style="display:none"><label>運費</label><input id="shipping" type="number" min="0" value="0" class="input" inputmode="numeric"><div class="note">只有確認已付款時才會填寫並開始計算。</div></div>
-    <div class="privacy" style="margin:0 0 13px">💡 新增／剛匯入的訂單預設為「待確認」，這階段不計算布丁費、運費、代理費與應匯老闆娘。之後請到訂單卡片手動確認流程。</div><input id="paid" type="checkbox" hidden><input id="remitted" type="checkbox" hidden>
-    <div class="field"><label>備註</label><textarea id="note" placeholder="付款、配送、特殊需求等"></textarea></div>
-    <button class="btn btn-primary btn-full" type="submit">儲存訂單</button>
+    <div class="row"><div class="field"><label for="deliveryMethod">配送／面交方式</label><select id="deliveryMethod" onchange="updateDestinationLabel()"></select></div><div class="field"><label id="destinationLabel" for="destination">地點／地址</label><input id="destination" class="input" required placeholder="填寫地址、門市或面交地點"></div></div>
+    <div class="row"><div class="field"><label for="deliveryDate">希望日期</label><input id="deliveryDate" type="date" class="input" required></div><div class="field"><label for="deliveryTime">希望時段</label><input id="deliveryTime" class="input" required placeholder="例如：下午／17:00後"></div></div>
+    <div class="field" id="shippingField" style="display:none"><label for="shipping">實際運費（元）</label><input id="shipping" type="number" min="0" step="1" value="0" class="input" inputmode="numeric" oninput="updateCalc()"><div class="note">已付款／已匯老闆娘都可修改；免費自取請填 0。</div></div>
+    <div class="privacy" id="editStatusNote" style="margin:0 0 13px"></div>
+    <div class="calc" id="editCalc" aria-live="polite"></div>
+    <div class="field"><label for="note">備註</label><textarea id="note" placeholder="付款、配送、特殊需求等"></textarea></div>
+    <div id="editError" class="privacy danger-text" role="alert" hidden></div><button id="saveEdit" class="btn btn-primary btn-full" type="submit">儲存並同步訂單</button>
   </form>
 </div></div>
 
@@ -151,6 +152,9 @@ const RULES={egg:{name:'雞蛋殼版',price:350,units:9},glass:{name:'玻璃瓶�
 const COMMISSION_PER_BOX=150;
 let orders=loadCache();
 let syncing=false;
+let writing=false;
+let editSnapshot=null;
+const field=id=>document.getElementById(id);
 
 function loadCache(){try{return JSON.parse(localStorage.getItem(KEY)||'[]').filter(o=>o.status!=='cancelled')}catch(e){return[]}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(orders))}
@@ -189,7 +193,7 @@ function setSyncText(text,kind=''){
   el.style.color=kind==='error'?'var(--danger)':kind==='ok'?'var(--ok)':'var(--muted)';
 }
 async function loadOrders(showAlert=false){
-  if(syncing)return;
+  if(syncing)return false;
   if(!accessToken()){orders=[];renderAll();setSyncText('🔒 請使用你的私人管理連結開啟','error');if(showAlert)alert('這個網址沒有管理權限。請使用你的私人管理連結。');return}
   syncing=true;setSyncText('⏳ 正在同步 Data Store…');
   try{
@@ -200,10 +204,11 @@ async function loadOrders(showAlert=false){
     orders=j.orders.map(normalizeOrder).filter(o=>o.status!=='cancelled');
     persist();renderAll();setSyncText('✅ 已同步 Data Store','ok');
     if(showAlert)alert(`同步完成 ✅\n目前 ${orders.length} 筆訂單`);
+    return true;
   }catch(e){
     console.error(e);setSyncText('⚠️ 同步失敗，顯示上次快取','error');
     if(showAlert)alert('同步失敗，請稍後再試。\n'+e.message);
-    renderAll();
+    renderAll();return false;
   }finally{syncing=false}
 }
 function switchView(id,el){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');if(id==='orders')renderOrders();if(id==='share')renderShare();if(id==='home')renderDashboard()}
@@ -211,7 +216,7 @@ function renderAll(){renderDashboard();renderOrders();renderShare()}
 function renderDashboard(){const t=todayStr(),m=currentMonth();let today=0,pendingOwner=0,monthRevenue=0,monthCommission=0,monthBoxes=0,monthCount=0;const paidOrders=orders.filter(isPaid);paidOrders.forEach(o=>{const c=calcOrder(o);const d=(o.paidAt||o.date||'').slice(0,10);if(d===t)today+=c.total;if(d.startsWith(m)){monthCount+=1;monthBoxes+=Number(o.boxes||0);monthRevenue+=c.total;monthCommission+=c.commission}if(o.status==='paid')pendingOwner+=c.owner});statAwaitConfirm.textContent=orders.filter(o=>o.status==='pending').length;statAwaitPay.textContent=orders.filter(o=>o.status==='confirmed').length;statToday.textContent=money(today);statPending.textContent=money(pendingOwner);statMonthCompleted.textContent=monthCount+' 筆 / '+monthBoxes+' 盒';statMonthRevenue.textContent=money(monthRevenue);statMonthCommission.textContent=money(monthCommission);renderRecent()}
 function orderHTML(o){const c=calcOrder(o),r=RULES[o.productType]||RULES.egg;const moneyBlock=isPaid(o)?`<div class="money-line"><div>布丁費<strong>${money(c.product)}</strong></div><div>運費<strong>${money(c.shipping)}</strong></div><div>客人總付款<strong>${money(c.total)}</strong></div><div>代理費<strong>${money(c.commission)}</strong></div><div>應匯老闆娘<strong>${money(c.owner)}</strong></div></div>`:`<div class="privacy" style="margin-top:10px">目前狀態：${statusText(o)}。<b>尚未收到付款，所以這筆不計入任何收入，也先不計算金額。</b></div>`;
 let actions='';if(o.status==='pending')actions=`<button onclick="confirmOrder('${o.id}')">確認客人真的要</button><button onclick="cancelOrder('${o.id}')">取消訂單</button>`;else if(o.status==='confirmed')actions=`<button onclick="markPaid('${o.id}')">已收到付款</button><button onclick="backPending('${o.id}')">改回待確認</button>`;else if(o.status==='paid')actions=`<button onclick="markRemitted('${o.id}')">標記已匯老闆娘</button><button onclick="undoPaid('${o.id}')">取消已付款</button>`;else if(o.status==='remitted')actions=`<button onclick="undoRemit('${o.id}')">取消已匯標記</button>`;
-return `<div class="order-card"><div class="order-top"><div><div class="order-name">${esc(o.name||'未填姓名')} · @${esc((o.instagram||'').replace(/^@/,''))}</div><span class="badge">${r.name}・${o.boxes}盒</span><span class="badge">${esc(deliveryText(o)||'未填配送')}</span><span class="badge ${statusClass(o)}">${statusText(o)}</span></div><div style="font-size:12px;color:var(--muted)">${esc(o.date||'')}</div></div><div class="note" style="margin-top:10px">📞 ${esc(o.phone||'-')}<br>📍 ${esc(o.destination||'-')}<br>📅 ${esc(o.deliveryDate||'-')} ${esc(o.deliveryTime||'')}<br>口味：原味 ${o.original||0}｜抹茶 ${o.matcha||0}｜Oreo ${o.oreo||0}｜珍珠奶茶 ${o.boba||0}<br>備註：${esc(o.note||'無')}</div>${moneyBlock}<div class="actions">${actions}</div></div>`}
+return `<div class="order-card"><div class="order-top"><div><div class="order-name">${esc(o.name||'未填姓名')} · @${esc((o.instagram||'').replace(/^@/,''))}</div><span class="badge">${r.name}・${o.boxes}盒</span><span class="badge">${esc(deliveryText(o)||'未填配送')}</span><span class="badge ${statusClass(o)}">${statusText(o)}</span></div><div style="font-size:12px;color:var(--muted)">${esc(o.date||'')}</div></div><div class="note" style="margin-top:10px">📞 ${esc(o.phone||'-')}<br>📍 ${esc(o.destination||'-')}<br>📅 ${esc(o.deliveryDate||'-')} ${esc(o.deliveryTime||'')}<br>口味：原味 ${o.original||0}｜抹茶 ${o.matcha||0}｜Oreo ${o.oreo||0}｜珍珠奶茶 ${o.boba||0}<br>備註：${esc(o.note||'無')}</div>${moneyBlock}<div class="actions">${actions}</div><div class="actions"><button type="button" class="btn-soft" data-edit-order="${esc(o.id)}">✏️ 修改訂單</button></div></div>`}
 function deliveryText(o){const m=o.deliveryMethod||'';if(m==='meetup')return (o.destination||'').split('｜')[0]||'面交';if(m==='home_delivery')return '黑貓冷藏宅配';if(m==='seven_eleven')return '7-ELEVEN';return m}
 function renderRecent(){const list=[...orders].sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||'')).slice(0,4);recentOrders.innerHTML=list.length?list.map(orderHTML).join(''):'<div class="empty">還沒有訂單</div>'}
 function renderOrders(){const q=(search?.value||'').toLowerCase(),type=filterType?.value||'',pf=filterPaid?.value||'',rem=filterRemit?.value||'';let list=[...orders].filter(o=>{if(type&&o.productType!==type)return false;if(pf==='paid'&&!isPaid(o))return false;if(pf==='unpaid'&&isPaid(o))return false;if(rem==='done'&&o.status!=='remitted')return false;if(rem==='pending'&&o.status!=='paid')return false;if(q&&!(`${o.name} ${o.instagram}`).toLowerCase().includes(q))return false;return true}).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));ordersList.innerHTML=list.length?list.map(orderHTML).join(''):'<div class="empty">沒有符合條件的訂單</div>'}
@@ -222,6 +227,15 @@ function mutablePayload(o,patch={}){
   const paid=n.status==='paid'||n.status==='remitted';
   return {
     key:n.key||n.id,
+    customerName:n.name||'',
+    instagram:n.instagram||'',
+    phone:n.phone||'',
+    productType:n.productType==='glass'?'glass_bottle':'egg_shell',
+    boxes:Number(n.boxes),
+    original:Number(n.original||0),matcha:Number(n.matcha||0),oreo:Number(n.oreo||0),boba:Number(n.boba||0),
+    deliveryMethod:n.deliveryMethod||'',
+    deliveryLocation:n.destination||'',
+    desiredDate:n.deliveryDate||'',desiredTime:n.deliveryTime||'',note:n.note||'',
     status:n.status||'pending',
     shippingFee:paid?Number(n.shipping??n.shippingFee??0):0,
     puddingFee:paid?c.product:0,
@@ -236,18 +250,32 @@ function mutablePayload(o,patch={}){
   };
 }
 async function updateRemote(o,patch){
+  if(writing||syncing){alert('正在同步訂單，請稍後再試。');return false}
+  if(!accessToken()){alert('請使用你的私人管理連結。');return false}
   if(!o?.key){alert('這筆訂單缺少 Data Store key，請先重新同步。');return false}
-  const data=mutablePayload(o,patch);const qs=apiParams();
+  const data=mutablePayload(o,patch),qs=apiParams();
   Object.entries(data).forEach(([k,v])=>{if(v!==undefined&&v!==null)qs.set(k,String(v))});
-  setSyncText('⏳ 正在更新 Data Store…');
+  writing=true;setSyncText('⏳ 正在更新 Data Store…');
+  let acknowledged=false;
   try{
-    const r=await fetch(API_URL+'?'+qs.toString(),{method:'GET',cache:'no-store'});
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:qs.toString(),cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
-    const j=await r.json().catch(()=>({ok:true}));
-    if(j&&j.ok===false)throw new Error('更新被拒絕');
-    Object.assign(o,patch);persist();renderAll();setSyncText('✅ 已更新 Data Store','ok');
-    await loadOrders(false);return true;
-  }catch(e){console.error(e);setSyncText('⚠️ 更新失敗','error');alert('更新失敗，原訂單沒有改動。\n'+e.message);return false}
+    const j=await r.json();
+    if(!j||j.ok!==true)throw new Error('伺服器沒有確認儲存成功');
+    acknowledged=true;
+    if(data.status==='cancelled'){orders=orders.filter(x=>x.key!==o.key);persist();renderAll();setSyncText('✅ 已永久刪除訂單','ok');return true}
+    if(!await loadOrders(false))throw new Error('儲存已回應，但重新讀取失敗；請重新同步確認');
+    const saved=orders.find(x=>x.key===o.key);
+    if(data.status==='cancelled'){
+      if(saved)throw new Error('重新讀取後訂單仍存在，請重新同步確認');
+    }else{
+      if(!saved)throw new Error('重新讀取後找不到此訂單');
+      const actual=mutablePayload(saved);
+      if(Object.keys(data).some(k=>String(actual[k]??'')!==String(data[k]??'')))throw new Error('重新讀取的資料與送出內容不一致，請重新同步後確認');
+    }
+    setSyncText('✅ 已儲存並重新核對 Data Store','ok');return true;
+  }catch(e){console.error(e);setSyncText('⚠️ 訂單更新尚未確認','error');alert((acknowledged?'已收到儲存回應，但尚未完成核對。':'未能確認儲存結果，請重新同步後確認。')+'\n'+e.message);return false}
+  finally{writing=false}
 }
 async function confirmOrder(id){const o=orders.find(x=>x.id===id);if(!o)return;await updateRemote(o,{status:'confirmed',confirmedAt:new Date().toISOString(),cancelledAt:''})}
 async function backPending(id){const o=orders.find(x=>x.id===id);if(!o)return;await updateRemote(o,{status:'pending',confirmedAt:'',paidAt:'',remittedAt:'',cancelledAt:'',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,remittedToOwner:false})}
@@ -256,6 +284,97 @@ async function undoPaid(id){const o=orders.find(x=>x.id===id);if(o&&confirm('取
 async function markRemitted(id){const o=orders.find(x=>x.id===id);if(o)await updateRemote(o,{status:'remitted',remittedAt:new Date().toISOString(),remittedToOwner:true})}
 async function undoRemit(id){const o=orders.find(x=>x.id===id);if(o)await updateRemote(o,{status:'paid',remittedAt:'',remittedToOwner:false})}
 async function cancelOrder(id){const o=orders.find(x=>x.id===id);if(!o)return;if(!confirm('確定取消並刪除這筆訂單？刪除後不保留紀錄，也無法復原。'))return;const ok=await updateRemote(o,{status:'cancelled',cancelledAt:new Date().toISOString(),confirmedAt:'',paidAt:'',remittedAt:'',shipping:0,shippingFee:0,puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0,remittedToOwner:false});if(ok){orders=orders.filter(x=>x.id!==id);persist();renderAll();}}
+const DELIVERY_CHOICES={
+ home_delivery:{label:'黑貓冷藏寄送到府',method:'home_delivery'},
+ seven_eleven:{label:'7-ELEVEN 冷藏寄送',method:'seven_eleven'},
+ tc_fixed:{label:'台中固定自取',method:'meetup',address:'台中市北屯區環太東路621號'},
+ tc_lala:{label:'台中Lalamove',method:'meetup'},
+ nt_fixed:{label:'新北新延門市自取',method:'meetup',address:'236新北市土城區延和路123號125巷1號 7-ELEVEN 新延門市'},
+ nt_lala:{label:'新北Lalamove',method:'meetup'}
+};
+function allowedDelivery(type,boxes){return Object.keys(DELIVERY_CHOICES).filter(k=>type==='egg'?k.startsWith('tc_'):!k.startsWith('nt_')||boxes>=3)}
+function deliveryChoice(o){
+ if(['home_delivery','seven_eleven'].includes(o.deliveryMethod))return o.deliveryMethod;
+ if(DELIVERY_CHOICES[o.deliveryMethod])return o.deliveryMethod;
+ const dest=o.destination||'';
+ if(/新北|新延/.test(dest))return /Lalamove/i.test(dest)?'nt_lala':(/自取|新延/.test(dest)?'nt_fixed':'');
+ if(/台中|臺中|環太東路/.test(dest))return /Lalamove/i.test(dest)?'tc_lala':(/自取|環太東路/.test(dest)?'tc_fixed':'');
+ return '';
+}
+function updateDeliveryOptions(){
+ const select=field('deliveryMethod'),old=select.value,allowed=allowedDelivery(field('productType').value,Number(field('boxes').value));
+ select.innerHTML='<option value="">請選擇配送方式</option>'+Object.entries(DELIVERY_CHOICES).map(([k,d])=>`<option value="${k}" ${allowed.includes(k)?'':'disabled'}>${d.label}${allowed.includes(k)?'':'（不符合目前版本／盒數）'}</option>`).join('');
+ select.value=old; // Retain an invalid selection visibly; saving will explain the restriction.
+}
+function updateProductRules(){const r=RULES[field('productType').value];field('boxRule').value=`${r.units} 入／盒 · $${r.price}`;updateDeliveryOptions();updateFlavorHint();updateCalc()}
+function updateDestinationLabel(){
+ const d=DELIVERY_CHOICES[field('deliveryMethod').value];
+ field('destinationLabel').textContent=field('deliveryMethod').value==='seven_eleven'?'7-ELEVEN 門市名稱＋完整地址':'配送／自取地址';
+ field('destination').readOnly=!!d?.address;
+ if(d?.address)field('destination').value=d.address;
+ else if(Object.values(DELIVERY_CHOICES).some(x=>x.address===field('destination').value))field('destination').value='';
+ if(d?.address&&editSnapshot&&isPaid(editSnapshot))field('shipping').value=0;
+ updateCalc();
+}
+function updateFlavorHint(){const r=RULES[field('productType').value],need=Number(field('boxes').value)*r.units,selected=['original','matcha','oreo','boba'].reduce((n,k)=>n+Number(field(k).value),0);field('flavorHint').textContent=`已填 ${selected} 顆／需要 ${need} 顆（${r.name}每盒 ${r.units} 顆）`;field('flavorHint').style.color=selected===need?'var(--ok)':'var(--danger)'}
+function freshAmounts(type,boxes,shipping){const product=RULES[type].price*boxes,commission=boxes*COMMISSION_PER_BOX,total=product+shipping;return{puddingFee:product,agentFee:commission,customerTotal:total,ownerAmount:total-commission}}
+function updateCalc(){
+ const el=field('editCalc');
+ if(!editSnapshot||!isPaid(editSnapshot)){el.hidden=true;el.style.display='none';return}
+ el.hidden=false;el.style.display='grid';
+ const c=freshAmounts(field('productType').value,Number(field('boxes').value)||0,Number(field('shipping').value)||0);
+ el.innerHTML=Object.entries({布丁費:c.puddingFee,'代理費（每盒 $150）':c.agentFee,客人總付款:c.customerTotal,應匯老闆娘:c.ownerAmount}).map(([k,v])=>`<div><b>${k}</b><strong>${money(v)}</strong></div>`).join('');
+}
+function showEditError(message){field('editError').textContent=message;field('editError').hidden=false}
+function editOrder(id){
+ if(writing||syncing){alert('正在同步訂單，請稍後再試。');return}
+ const o=orders.find(x=>x.id===id);if(!o)return;
+ editSnapshot=JSON.parse(JSON.stringify(o));field('orderForm').reset();field('editError').hidden=true;
+ field('editId').value=o.id;field('date').value=o.date||'';
+ for(const k of ['name','instagram','phone','productType','boxes','original','matcha','oreo','boba','deliveryDate','deliveryTime','note'])field(k).value=o[k]??'';
+ updateProductRules();field('deliveryMethod').value=deliveryChoice(o);
+ const prefix=(o.destination||'').split('｜')[0];
+ field('destination').value=(o.destination||'').includes('｜')&&(prefix===deliveryText(o)||Object.values(DELIVERY_CHOICES).some(d=>d.label===prefix))?o.destination.slice(prefix.length+1):o.destination||'';
+ field('destination').readOnly=!!DELIVERY_CHOICES[field('deliveryMethod').value]?.address;
+ field('shipping').value=o.shipping||0;field('shippingField').style.display=isPaid(o)?'block':'none';field('shipping').required=isPaid(o);
+ field('editStatusNote').textContent=`目前：${statusText(o)}。`+(isPaid(o)?'修改版本、盒數或運費會重新計算以下金額；原付款日期與匯款狀態保留。'+(o.status==='remitted'?'若金額有差額，請另行核對補匯／退回；系統不會實際轉帳。':''):'尚未付款，修改後仍不計入收入；確認及付款流程維持原狀。');
+ updateCalc();field('orderModal').style.display='flex';field('orderModal').classList.add('show');field('name').focus();
+}
+function closeOrderModal(){if(writing||field('saveEdit').disabled)return;field('orderModal').style.display='none';field('orderModal').classList.remove('show');editSnapshot=null}
+function readEdit(){
+ const type=field('productType').value,boxes=Number(field('boxes').value),choice=field('deliveryMethod').value,flavors=Object.fromEntries(['original','matcha','oreo','boba'].map(k=>[k,Number(field(k).value)]));
+ if(!Number.isSafeInteger(boxes)||boxes<1)throw new Error('盒數必須是大於 0 的整數。');
+ if(Object.values(flavors).some(n=>!Number.isSafeInteger(n)||n<0))throw new Error('每種口味數量必須是 0 或正整數。');
+ if(Object.values(flavors).reduce((a,b)=>a+b,0)!==boxes*RULES[type].units)throw new Error(`${RULES[type].name}每盒 ${RULES[type].units} 顆，口味總數必須剛好 ${boxes*RULES[type].units} 顆。`);
+ if(!allowedDelivery(type,boxes).includes(choice))throw new Error(type==='egg'?'雞蛋殼僅限台中固定自取或台中 Lalamove。':'請選擇配送方式；新北自取／Lalamove 僅限玻璃瓶滿 3 盒。');
+ const d=DELIVERY_CHOICES[choice],dest=field('destination').value.trim();
+ if(['name','instagram','phone','deliveryDate','deliveryTime'].some(k=>!field(k).value.trim())||!dest)throw new Error('請填完整姓名、IG、電話、地址、希望日期及時段。');
+ if(d.address&&dest!==d.address)throw new Error('固定自取地址不正確，請重新選擇配送方式。');
+ if(choice==='tc_lala'&&!/台中|臺中/.test(dest))throw new Error('台中 Lalamove 請填寫含「台中市」的完整地址。');
+ if(choice==='nt_lala'&&!/新北/.test(dest))throw new Error('新北 Lalamove 請填寫含「新北市」的完整地址。');
+ const shipping=isPaid(editSnapshot)?Number(field('shipping').value):0;
+ if(isPaid(editSnapshot)&&(field('shipping').value.trim()===''||!Number.isSafeInteger(shipping)||shipping<0))throw new Error('實際運費請填 0 或正整數。');
+ if(isPaid(editSnapshot)&&d.address&&shipping!==0)throw new Error('固定自取免費，實際運費請填 0。');
+ const amounts=isPaid(editSnapshot)?freshAmounts(type,boxes,shipping):{puddingFee:0,agentFee:0,customerTotal:0,ownerAmount:0};
+ return {name:field('name').value.trim(),instagram:field('instagram').value.trim().replace(/^@/,''),phone:field('phone').value.trim(),productType:type,boxes,...flavors,deliveryMethod:d.method,destination:d.method==='meetup'?d.label+'｜'+dest:dest,deliveryDate:field('deliveryDate').value,deliveryTime:field('deliveryTime').value.trim(),note:field('note').value,shipping,shippingFee:shipping,...amounts};
+}
+async function saveOrder(event){
+ event.preventDefault();if(!editSnapshot||writing||field('saveEdit').disabled)return;
+ field('editError').hidden=true;
+ let patch;try{patch=readEdit()}catch(e){showEditError(e.message);return}
+ field('saveEdit').disabled=true;field('saveEdit').textContent='正在儲存與核對…';
+ try{
+  const before=editSnapshot;
+  if(!await loadOrders(false)){showEditError('無法取得最新訂單，尚未送出修改。請稍後再試。');return}
+  const latest=orders.find(x=>x.key===before.key);
+  if(!latest){showEditError('此訂單已不存在，沒有送出修改。');return}
+  if(JSON.stringify(mutablePayload(latest))!==JSON.stringify(mutablePayload(before))){showEditError('此訂單在編輯期間已被更新。請關閉後重新開啟修改，避免覆蓋新資料。');return}
+  if(await updateRemote(latest,patch)){field('saveEdit').disabled=false;closeOrderModal();alert('訂單已儲存，並已重新讀回確認同步成功 ✅')}
+  else showEditError('尚未確認同步成功。請核對重新同步的訂單，再決定是否重試。');
+ }finally{field('saveEdit').disabled=false;field('saveEdit').textContent='儲存並同步訂單'}
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-edit-order]');if(b)editOrder(b.dataset.editOrder)});
+
 function exportData(){const blob=new Blob([JSON.stringify({version:2,source:'Make Data Store',exportedAt:new Date().toISOString(),orders},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='odie-order-backup-'+todayStr()+'.json';a.click();URL.revokeObjectURL(a.href)}
 function clearCache(){if(confirm('只清除這台手機的快取，不會刪除 Make Data Store 的訂單。確定嗎？')){localStorage.removeItem(KEY);orders=[];renderAll();setSyncText('本機快取已清除，按重新同步即可恢復','error')}}
 function logoutDevice(){if(confirm('解除後，這台裝置必須重新使用你的私人管理連結才能讀取訂單。確定嗎？')){localStorage.removeItem(ACCESS_KEY);localStorage.removeItem(KEY);location.href=location.pathname}}
@@ -266,3 +385,4 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 </script>
 </body>
 </html>
+
