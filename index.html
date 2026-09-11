@@ -227,6 +227,8 @@ function mutablePayload(o,patch={}){
   const paid=n.status==='paid'||n.status==='remitted';
   return {
     key:n.key||n.id,
+    orderId:n.orderId||'',
+createdAt:n.createdAt||'',
     customerName:n.name||'',
     instagram:n.instagram||'',
     phone:n.phone||'',
