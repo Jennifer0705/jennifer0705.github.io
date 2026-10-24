@@ -454,13 +454,13 @@ function agentMoney(v){return '$'+Math.round(agentNum(v)).toLocaleString('zh-TW'
 function agentName(ch){return ({XINAI:'心艾',XUAN:'璇',YUTING:'郁婷'})[ch]||ch}
 function agentAlert(t){agentEl('agentPanelStatus').textContent=t}
 async function agentAdminCall(o){
- if(!agentOwnerSecret)throw Error('請使用原本的私人管理連結');
+ if(!agentOwnerSecret)throw Error('請使用新版專屬私人管理連結');
  const r=await fetch(AGENT_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({...o,auth:agentOwnerSecret})});
  let j;try{j=await r.json()}catch(e){throw Error('伺服器回傳異常')}
  if(!r.ok||j.ok!==true)throw Error(j.error==='unauthorized'||j.error==='owner_only'?'私人連結無效或已失效':j.error||'同步失敗');
  return j;
 }
-function agentPanelOpen(){agentOwnerSecret=(new URLSearchParams(location.hash.replace(/^#/,''))).get('agent')||sessionStorage.getItem('odieAgentAdminAuth')||'';if(!agentOwnerSecret){agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';agentEl('agentLoginMessage').textContent='請使用原本的私人管理連結開啟本頁。';return}sessionStorage.setItem('odieAgentAdminAuth',agentOwnerSecret);agentPanelRefresh().catch(e=>{sessionStorage.removeItem('odieAgentAdminAuth');agentOwnerSecret='';agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';agentEl('agentLoginMessage').textContent='無法驗證私人連結：'+e.message;});}
+function agentPanelOpen(){agentOwnerSecret=(new URLSearchParams(location.hash.replace(/^#/,''))).get('agent')||sessionStorage.getItem('odieAgentAdminAuth')||'';if(!agentOwnerSecret){agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';agentEl('agentLoginMessage').textContent='請使用新版專屬私人管理連結開啟本頁。';return}sessionStorage.setItem('odieAgentAdminAuth',agentOwnerSecret);agentPanelRefresh().catch(e=>{sessionStorage.removeItem('odieAgentAdminAuth');agentOwnerSecret='';agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';agentEl('agentLoginMessage').textContent='無法驗證私人連結：'+e.message;});}
 async function agentPanelRefresh(){
  if(!agentOwnerSecret){agentPanelOpen();return}
  if(agentBusy)return;
