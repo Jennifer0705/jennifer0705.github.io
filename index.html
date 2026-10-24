@@ -97,13 +97,7 @@
 <section id="agents" class="view">
  <div class="section-title"><span>👩🏻‍💼 代理訂單管理</span><button class="small-btn" onclick="agentPanelRefresh()">↻ 同步代理資料</button></div>
  <div class="card" style="margin-bottom:12px"><div class="note">三位代理先保留自己的預購訂單。<b>只有妳確認收款後，才列入這裡的正式已付款訂單。</b>待核款資料放在獨立審核區，不計入業績。資料仍儲存在代理原本的系統，不會複製到 Make。</div></div>
- <div class="card" id="agentLoginBox">
-  <b>🔒 連結代理訂單後台</b>
-  <p class="note">請輸入妳原本的「總管理員密碼」（與三位代理的密碼不同）。密碼不會寫進公開網站，也不會放進網址。</p>
-  <input id="agentOwnerPassword" type="password" autocomplete="off" class="input" placeholder="總管理員密碼" style="margin:8px 0">
-  <button class="primary-btn" onclick="agentPanelLogin()">解鎖代理管理</button>
-  <div id="agentLoginMessage" class="note" role="status" style="margin-top:8px"></div>
- </div>
+ <div class="card" id="agentLoginBox"><b>🔒 私密連結專用</b><p class="note">這裡不用輸入密碼。請使用 Jennifer 的新版專屬私人管理連結開啟，系統會自動驗證代理管理權限；連結請勿公開分享。</p><div id="agentLoginMessage" class="note" role="status" style="margin-top:8px"></div></div>
  <div id="agentPanel" style="display:none">
   <div class="agent-metrics">
    <div class="agent-metric"><small>待妳核款</small><b id="agentPendingCount">0</b></div>
@@ -120,7 +114,7 @@
   <div id="agentPanelStatus" class="note" style="margin:8px 0">尚未讀取代理資料</div>
   <div id="agentPanelList"></div>
   <div class="note" style="margin:18px 0">退款後的訂單不再出現在妳的已核款列表及業績統計，但代理端會保留「已退款」紀錄；原始資料不會被永久刪除。</div>
-  <button class="small-btn" onclick="agentPanelLogout()">🔐 登出代理管理</button>
+  <button class="small-btn" onclick="logoutDevice()">🔒 解除這台裝置的管理權限</button>
  </div>
 </section>
 
@@ -442,7 +436,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-edit-order
 
 function exportData(){const blob=new Blob([JSON.stringify({version:2,source:'Make Data Store',exportedAt:new Date().toISOString(),orders},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='odie-order-backup-'+todayStr()+'.json';a.click();URL.revokeObjectURL(a.href)}
 function clearCache(){if(confirm('只清除這台手機的快取，不會刪除 Make Data Store 的訂單。確定嗎？')){localStorage.removeItem(KEY);orders=[];renderAll();setSyncText('本機快取已清除，按重新同步即可恢復','error')}}
-function logoutDevice(){if(confirm('解除後，這台裝置必須重新使用你的私人管理連結才能讀取訂單。確定嗎？')){localStorage.removeItem(ACCESS_KEY);localStorage.removeItem(KEY);location.href=location.pathname}}
+function logoutDevice(){if(confirm('解除後，這台裝置必須重新使用你的私人管理連結才能讀取訂單。確定嗎？')){localStorage.removeItem(ACCESS_KEY);localStorage.removeItem(KEY);sessionStorage.removeItem('odieAgentAdminAuth');location.href=location.pathname}}
 function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 renderAll();
 loadOrders(false);
@@ -460,28 +454,13 @@ function agentMoney(v){return '$'+Math.round(agentNum(v)).toLocaleString('zh-TW'
 function agentName(ch){return ({XINAI:'心艾',XUAN:'璇',YUTING:'郁婷'})[ch]||ch}
 function agentAlert(t){agentEl('agentPanelStatus').textContent=t}
 async function agentAdminCall(o){
- if(!agentOwnerSecret)throw Error('請先輸入總管理員密碼');
+ if(!agentOwnerSecret)throw Error('請使用原本的私人管理連結');
  const r=await fetch(AGENT_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({...o,auth:agentOwnerSecret})});
  let j;try{j=await r.json()}catch(e){throw Error('伺服器回傳異常')}
- if(!r.ok||j.ok!==true)throw Error(j.error==='unauthorized'||j.error==='owner_only'?'管理員密碼不正確':j.error||'同步失敗');
+ if(!r.ok||j.ok!==true)throw Error(j.error==='unauthorized'||j.error==='owner_only'?'私人連結無效或已失效':j.error||'同步失敗');
  return j;
 }
-function agentPanelOpen(){
- agentOwnerSecret=sessionStorage.getItem('odieAgentAdminAuth')||agentOwnerSecret||'';
- if(!agentOwnerSecret){agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';return}
- agentPanelRefresh();
-}
-async function agentPanelLogin(){
- agentOwnerSecret=agentEl('agentOwnerPassword').value.trim();
- agentEl('agentLoginMessage').textContent='正在驗證…';
- if(!agentOwnerSecret){agentEl('agentLoginMessage').textContent='請先輸入密碼';return}
- try{await agentPanelRefresh();sessionStorage.setItem('odieAgentAdminAuth',agentOwnerSecret);agentEl('agentLoginMessage').textContent=''}
- catch(e){agentOwnerSecret='';agentEl('agentLoginMessage').textContent='登入失敗：'+e.message}
-}
-function agentPanelLogout(){
- sessionStorage.removeItem('odieAgentAdminAuth');agentOwnerSecret='';agentPaidOrders=[];agentReportedOrders=[];
- agentEl('agentPanel').style.display='none';agentEl('agentLoginBox').style.display='block';agentEl('agentOwnerPassword').value='';
-}
+function agentPanelOpen(){agentOwnerSecret=(new URLSearchParams(location.hash.replace(/^#/,''))).get('agent')||sessionStorage.getItem('odieAgentAdminAuth')||'';if(!agentOwnerSecret){agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';agentEl('agentLoginMessage').textContent='請使用原本的私人管理連結開啟本頁。';return}sessionStorage.setItem('odieAgentAdminAuth',agentOwnerSecret);agentPanelRefresh().catch(e=>{sessionStorage.removeItem('odieAgentAdminAuth');agentOwnerSecret='';agentEl('agentLoginBox').style.display='block';agentEl('agentPanel').style.display='none';agentEl('agentLoginMessage').textContent='無法驗證私人連結：'+e.message;});}
 async function agentPanelRefresh(){
  if(!agentOwnerSecret){agentPanelOpen();return}
  if(agentBusy)return;
@@ -599,7 +578,6 @@ async function agentSaveEdit(e){
  finally{button.disabled=false}
 }
 document.addEventListener('click',e=>{const btn=e.target.closest('[data-agent-act]');if(btn)agentAction(btn)});
-agentEl('agentOwnerPassword').addEventListener('keydown',e=>{if(e.key==='Enter')agentPanelLogin()});
 </script>
 
 </body>
